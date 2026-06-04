@@ -33,7 +33,7 @@ async function initLearningWeb(containerId) {
   data.nodes.forEach(n => nodeMap[n.id] = n);
 
   // Size scale
-  const sizeScale = d3.scaleLinear().domain([1, 3]).range([18, 38]);
+  const sizeScale = d3.scaleLinear().domain([1, 3]).range([42, 68]);
 
   // Simulation
   const simulation = d3.forceSimulation(data.nodes)
@@ -79,16 +79,45 @@ async function initLearningWeb(containerId) {
     .attr('stroke-width', 2)
     .attr('filter', d => d.size >= 3 ? 'url(#glow)' : null);
 
-  // Labels
-  node.append('text')
-    .text(d => d.label)
-    .attr('text-anchor', 'middle')
-    .attr('dy', '0.35em')
-    .attr('fill', '#f7f5f0')
-    .attr('font-size', d => Math.max(9, sizeScale(d.size) * 0.42) + 'px')
-    .attr('font-family', 'system-ui, sans-serif')
-    .attr('font-weight', '600')
-    .attr('pointer-events', 'none');
+  // Labels — wrapped to fit inside circle
+  node.each(function(d) {
+    const r = sizeScale(d.size);
+    const fontSize = Math.max(9, r * 0.38);
+    const maxWidth = r * 1.6;
+    const words = d.label.split(' ');
+    const textEl = d3.select(this).append('text')
+      .attr('text-anchor', 'middle')
+      .attr('fill', '#f7f5f0')
+      .attr('font-size', fontSize + 'px')
+      .attr('font-family', 'system-ui, sans-serif')
+      .attr('font-weight', '600')
+      .attr('pointer-events', 'none');
+
+    // Build lines that fit within maxWidth
+    const lines = [];
+    let current = '';
+    words.forEach(word => {
+      const test = current ? current + ' ' + word : word;
+      // Rough char-width estimate: fontSize * 0.55 per char
+      if (test.length * fontSize * 0.55 > maxWidth && current) {
+        lines.push(current);
+        current = word;
+      } else {
+        current = test;
+      }
+    });
+    if (current) lines.push(current);
+
+    const lineHeight = fontSize * 1.25;
+    const totalHeight = lines.length * lineHeight;
+    lines.forEach((line, i) => {
+      textEl.append('tspan')
+        .attr('x', 0)
+        .attr('y', -totalHeight / 2 + lineHeight * 0.5 + i * lineHeight)
+        .attr('dy', '0.35em')
+        .text(line);
+    });
+  });
 
   // Tooltip
   const tooltip = d3.select('body').append('div')
