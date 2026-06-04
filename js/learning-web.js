@@ -79,44 +79,33 @@ async function initLearningWeb(containerId) {
     .attr('stroke-width', 2)
     .attr('filter', d => d.size >= 3 ? 'url(#glow)' : null);
 
-  // Labels — wrapped to fit inside circle
+  // Labels — foreignObject for proper CSS text wrapping
   node.each(function(d) {
     const r = sizeScale(d.size);
-    const fontSize = Math.max(9, r * 0.38);
-    const maxWidth = r * 1.6;
-    const words = d.label.split(' ');
-    const textEl = d3.select(this).append('text')
-      .attr('text-anchor', 'middle')
-      .attr('fill', '#f7f5f0')
-      .attr('font-size', fontSize + 'px')
-      .attr('font-family', 'system-ui, sans-serif')
-      .attr('font-weight', '600')
-      .attr('pointer-events', 'none');
-
-    // Build lines that fit within maxWidth
-    const lines = [];
-    let current = '';
-    words.forEach(word => {
-      const test = current ? current + ' ' + word : word;
-      // Rough char-width estimate: fontSize * 0.55 per char
-      if (test.length * fontSize * 0.55 > maxWidth && current) {
-        lines.push(current);
-        current = word;
-      } else {
-        current = test;
-      }
-    });
-    if (current) lines.push(current);
-
-    const lineHeight = fontSize * 1.25;
-    const totalHeight = lines.length * lineHeight;
-    lines.forEach((line, i) => {
-      textEl.append('tspan')
-        .attr('x', 0)
-        .attr('y', -totalHeight / 2 + lineHeight * 0.5 + i * lineHeight)
-        .attr('dy', '0.35em')
-        .text(line);
-    });
+    const size = r * 2 * 0.85; // usable diameter
+    const fontSize = Math.max(9, r * 0.28);
+    d3.select(this).append('foreignObject')
+      .attr('x', -size / 2)
+      .attr('y', -size / 2)
+      .attr('width', size)
+      .attr('height', size)
+      .attr('pointer-events', 'none')
+      .append('xhtml:div')
+      .style('width', '100%')
+      .style('height', '100%')
+      .style('display', 'flex')
+      .style('align-items', 'center')
+      .style('justify-content', 'center')
+      .style('text-align', 'center')
+      .style('color', '#f7f5f0')
+      .style('font-size', fontSize + 'px')
+      .style('font-family', 'system-ui, sans-serif')
+      .style('font-weight', '600')
+      .style('line-height', '1.2')
+      .style('word-break', 'break-word')
+      .style('overflow', 'hidden')
+      .style('padding', '4px')
+      .text(d.label);
   });
 
   // Tooltip
