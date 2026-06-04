@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research — Noah Peters</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .research-card {
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .research-card h3 {
+      font-family: var(--font-serif);
+      font-size: 1.1rem;
+      font-weight: normal;
+      margin-bottom: 0.4rem;
+    }
+    .research-status {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+    }
+    .questions {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .questions h4 {
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .questions ul { list-style: none; }
+    .questions li {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      padding: 0.3rem 0 0.3rem 1rem;
+      position: relative;
+    }
+    .questions li::before {
+      content: '?';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
+    .methods { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
+    .method-tag {
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      background: var(--bg);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.15rem 0.5rem;
+      border-radius: 2px;
+    }
+    .tool-item {
+      display: flex;
+      gap: 1rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: baseline;
+    }
+    .tool-item:last-child { border-bottom: none; }
+    .tool-name {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--accent);
+      min-width: 80px;
+    }
+    .tool-desc { font-size: 0.86rem; color: var(--text-muted); }
+    .resource-list { list-style: none; }
+    .resource-list li {
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+    .resource-list li:last-child { border-bottom: none; }
+    .resource-list a { color: var(--accent); }
+    .resource-desc { font-size: 0.8rem; color: var(--text-muted); margin-left: 0.5rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="index.html">NP</a>
+  <ul>
+    <li><a href="now.html">Now</a></li>
+    <li><a href="learning.html">Learning</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="research.html" class="active">Research</a></li>
+  </ul>
+</nav>
+
+<main>
+  <h1>Research</h1>
+  <div class="typewriter" id="typewriter"></div>
+
+  <h2>Projects</h2>
+  <div id="projects"></div>
+
+  <h2>Tools & Methods</h2>
+  <div id="tools"></div>
+
+  <h2>Resources</h2>
+  <ul class="resource-list" id="resources"></ul>
+</main>
+
+<footer>Noah Peters</footer>
+
+<script src="js/typewriter.js"></script>
+<script>
+  fetch('data/research.json')
+    .then(r => r.json())
+    .then(d => {
+      typewriter(document.getElementById('typewriter'),
+        ['Asking questions. Finding answers.'], { speed: 40, pause: 99999 });
+
+      // Projects
+      const projects = document.getElementById('projects');
+      d.projects.forEach(p => {
+        projects.innerHTML += `
+          <div class="research-card">
+            <h3>${p.title}</h3>
+            <div class="research-status">${p.status} · ${p.year}</div>
+            <p class="entry-desc">${p.description}</p>
+            <div class="methods">
+              ${p.methods.map(m => `<span class="method-tag">${m}</span>`).join('')}
+            </div>
+            <div class="questions">
+              <h4>Research Questions</h4>
+              <ul>${p.questions.map(q => `<li>${q}</li>`).join('')}</ul>
+            </div>
+            <div class="tags" style="margin-top:1rem">
+              ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+            </div>
+          </div>`;
+      });
+
+      // Tools
+      const tools = document.getElementById('tools');
+      d.tools.forEach(t => {
+        tools.innerHTML += `
+          <div class="tool-item">
+            <span class="tool-name">${t.name}</span>
+            <span class="tool-desc">${t.description}${t.learning ? ' <em style="color:var(--accent);font-size:0.78rem">(learning)</em>' : ''}</span>
+          </div>`;
+      });
+
+      // Resources
+      const resources = document.getElementById('resources');
+      d.resources.forEach(r => {
+        resources.innerHTML += `
+          <li>
+            <a href="${r.url}" target="_blank" rel="noopener">${r.label}</a>
+            <span class="resource-desc">— ${r.description}</span>
+          </li>`;
+      });
+    });
+</script>
+</body>
+</html>

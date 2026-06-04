@@ -1,0 +1,36 @@
+{
+  "education": [
+    {
+      "institution": "University Name",
+      "degree": "B.S. Economics",
+      "years": "2022 – 2026",
+      "notes": "Focus on environmental economics and quantitative methods"
+    }
+  ],
+  "experience": [
+    {
+      "company": "Company Name",
+      "role": "Construction Management",
+      "years": "2025 – Present",
+      "bullets": [
+        "Description of your responsibilities",
+        "Key project or achievement",
+        "Another accomplishment"
+      ]
+    }
+  ],
+  "skills": [
+    { "category": "Analysis", "items": ["R", "Excel", "Statistical Modeling", "Econometrics"] },
+    { "category": "Construction", "items": ["Project Management", "Site Operations", "Scheduling"] },
+    { "category": "Other", "items": ["Research & Writing", "Data Visualization", "Python (learning)"] }
+  ],
+  "courses": [
+    "Microeconomics",
+    "Macroeconomics",
+    "Econometrics",
+    "Environmental Economics",
+    "Urban Economics",
+    "Statistics",
+    "Real Estate Finance"
+  ]
+}

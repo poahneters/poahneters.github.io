@@ -1,0 +1,38 @@
+{
+  "nodes": [
+    { "id": "economics", "label": "Economics", "size": 3, "color": "#4a7c59", "description": "The study of how people allocate scarce resources. My core discipline.", "children": ["econometrics", "environmental-econ", "urban-econ", "behavioral-econ"] },
+    { "id": "econometrics", "label": "Econometrics", "size": 2, "color": "#5a8f6a", "description": "Statistical methods for economic data. Currently applying to property value research.", "children": [] },
+    { "id": "environmental-econ", "label": "Environmental Economics", "size": 2, "color": "#5a8f6a", "description": "How markets handle environmental goods and externalities.", "children": ["sustainability"] },
+    { "id": "urban-econ", "label": "Urban Economics", "size": 2, "color": "#5a8f6a", "description": "How cities form, grow, and distribute resources.", "children": [] },
+    { "id": "behavioral-econ", "label": "Behavioral Economics", "size": 1, "color": "#6ba37a", "description": "Want to explore: how psychology shapes economic decision-making.", "children": [] },
+    { "id": "sustainability", "label": "Sustainability", "size": 3, "color": "#3d6b4f", "description": "Green building, certifications, long-term resource thinking.", "children": ["leed", "construction"] },
+    { "id": "leed", "label": "LEED & Green Building", "size": 2, "color": "#5a8f6a", "description": "Certification systems for sustainable construction.", "children": [] },
+    { "id": "construction", "label": "Construction Management", "size": 3, "color": "#7a6040", "description": "The operational side of building — scheduling, logistics, people.", "children": ["project-mgmt"] },
+    { "id": "project-mgmt", "label": "Project Management", "size": 2, "color": "#8f7050", "description": "Planning and executing complex projects with many moving parts.", "children": [] },
+    { "id": "data", "label": "Data & Analysis", "size": 2, "color": "#4a6080", "description": "Working with numbers to find meaning.", "children": ["r-lang", "visualization"] },
+    { "id": "r-lang", "label": "R Programming", "size": 2, "color": "#5a7090", "description": "Currently learning. Using for econometric research.", "children": [] },
+    { "id": "visualization", "label": "Data Visualization", "size": 1, "color": "#6a80a0", "description": "Want to explore: making data legible and beautiful.", "children": [] },
+    { "id": "natural-world", "label": "Natural World", "size": 2, "color": "#3a6b3a", "description": "Ecology, systems, the way living things organize.", "children": ["ecology", "systems-thinking"] },
+    { "id": "ecology", "label": "Ecology", "size": 1, "color": "#4a7a4a", "description": "How organisms relate to each other and their environments.", "children": [] },
+    { "id": "systems-thinking", "label": "Systems Thinking", "size": 2, "color": "#5a6b40", "description": "Understanding feedback loops, emergence, and interconnection.", "children": [] }
+  ],
+  "connections": [
+    { "source": "economics", "target": "econometrics" },
+    { "source": "economics", "target": "environmental-econ" },
+    { "source": "economics", "target": "urban-econ" },
+    { "source": "economics", "target": "behavioral-econ" },
+    { "source": "economics", "target": "data" },
+    { "source": "environmental-econ", "target": "sustainability" },
+    { "source": "sustainability", "target": "leed" },
+    { "source": "sustainability", "target": "construction" },
+    { "source": "construction", "target": "project-mgmt" },
+    { "source": "data", "target": "r-lang" },
+    { "source": "data", "target": "visualization" },
+    { "source": "data", "target": "econometrics" },
+    { "source": "natural-world", "target": "ecology" },
+    { "source": "natural-world", "target": "systems-thinking" },
+    { "source": "systems-thinking", "target": "economics" },
+    { "source": "ecology", "target": "environmental-econ" },
+    { "source": "urban-econ", "target": "construction" }
+  ]
+}

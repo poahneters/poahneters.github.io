@@ -1,0 +1,34 @@
+{
+  "projects": [
+    {
+      "title": "Sustainability Certifications & Property Values",
+      "status": "In Progress",
+      "year": "2026",
+      "description": "An empirical analysis of how green building certifications (LEED, ENERGY STAR, etc.) affect residential and commercial property values. Using hedonic pricing models and R to isolate the premium — or discount — associated with certified properties.",
+      "methods": ["Hedonic Pricing Model", "OLS Regression", "R", "Data Cleaning & Analysis"],
+      "questions": [
+        "Do sustainability certifications produce a measurable price premium?",
+        "Does the effect vary by market, property type, or certification level?",
+        "How has the relationship changed over time as green building has become more common?"
+      ],
+      "tags": ["Economics", "Sustainability", "Real Estate", "R", "Econometrics"]
+    }
+  ],
+  "tools": [
+    {
+      "name": "R",
+      "description": "Primary analysis language. Using tidyverse, ggplot2, and fixest for econometric modeling.",
+      "learning": true
+    },
+    {
+      "name": "Excel",
+      "description": "Data cleaning and preliminary exploration.",
+      "learning": false
+    }
+  ],
+  "resources": [
+    { "label": "R for Data Science", "url": "https://r4ds.had.co.nz/", "description": "Core R learning resource" },
+    { "label": "NBER Working Papers", "url": "https://www.nber.org/papers", "description": "Economics research" },
+    { "label": "CoStar", "url": "https://www.costar.com/", "description": "Commercial real estate data" }
+  ]
+}

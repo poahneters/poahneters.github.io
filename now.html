@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Now — Noah Peters</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .reading-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+    }
+    .reading-item:last-child { border-bottom: none; }
+    .book-title { font-size: 0.9rem; color: var(--text); }
+    .book-author { font-size: 0.82rem; color: var(--text-muted); }
+    .goal-item {
+      padding: 0.5rem 0 0.5rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      position: relative;
+    }
+    .goal-item::before {
+      content: '◦';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+    .goal-item:last-child { border-bottom: none; }
+    .learning-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    .chip {
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+    }
+    .updated {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="index.html">NP</a>
+  <ul>
+    <li><a href="now.html" class="active">Now</a></li>
+    <li><a href="learning.html">Learning</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="research.html">Research</a></li>
+  </ul>
+</nav>
+
+<main>
+  <h1>Now</h1>
+  <div class="typewriter" id="typewriter"></div>
+  <p class="updated" id="updated"></p>
+
+  <h2>Working On</h2>
+  <div id="working-on"></div>
+
+  <h2>Currently Learning</h2>
+  <div class="learning-chips" id="learning-chips"></div>
+
+  <h2>Reading</h2>
+  <div id="reading"></div>
+
+  <h2>Goals</h2>
+  <div id="goals"></div>
+</main>
+
+<footer>Noah Peters</footer>
+
+<script src="js/typewriter.js"></script>
+<script>
+  fetch('data/now.json')
+    .then(r => r.json())
+    .then(d => {
+      document.getElementById('updated').textContent = `Last updated: ${d.updated}`;
+
+      typewriter(document.getElementById('typewriter'),
+        ['What I am doing right now.'], { speed: 40, pause: 99999 });
+
+      // Working on
+      const wo = document.getElementById('working-on');
+      d.working_on.forEach(item => {
+        wo.innerHTML += `
+          <div class="entry">
+            <div class="entry-meta">
+              ${item.title}
+              <span class="status status-active">${item.status}</span>
+            </div>
+            <p class="entry-desc">${item.description}</p>
+          </div>`;
+      });
+
+      // Learning chips
+      const chips = document.getElementById('learning-chips');
+      d.learning.forEach(l => {
+        chips.innerHTML += `<span class="chip">${l}</span>`;
+      });
+
+      // Reading
+      const reading = document.getElementById('reading');
+      d.reading.forEach(b => {
+        const statusClass = b.status === 'reading' ? 'status-reading'
+          : b.status === 'read' ? 'status-done' : 'status-want';
+        const statusLabel = b.status === 'want to read' ? 'want to read' : b.status;
+        reading.innerHTML += `
+          <div class="reading-item">
+            <div>
+              <div class="book-title">${b.title}</div>
+              <div class="book-author">${b.author}</div>
+            </div>
+            <span class="status ${statusClass}">${statusLabel}</span>
+          </div>`;
+      });
+
+      // Goals
+      const goals = document.getElementById('goals');
+      d.goals.forEach(g => {
+        goals.innerHTML += `<div class="goal-item">${g}</div>`;
+      });
+    });
+</script>
+</body>
+</html>

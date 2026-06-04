@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learning — Noah Peters</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .web-container {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--bg-alt);
+      margin-top: 1.5rem;
+    }
+    .web-hint {
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      margin-top: 0.8rem;
+      text-align: center;
+    }
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .legend-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="index.html">NP</a>
+  <ul>
+    <li><a href="now.html">Now</a></li>
+    <li><a href="learning.html" class="active">Learning</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="research.html">Research</a></li>
+  </ul>
+</nav>
+
+<main style="max-width: 960px;">
+  <h1>Learning</h1>
+  <div class="typewriter" id="typewriter"></div>
+  <p style="color: var(--text-muted); font-size:0.9rem;">
+    A living map of subjects I'm studying, exploring, and want to understand better.
+    Bigger nodes are more developed interests. Lines show how ideas connect.
+  </p>
+
+  <div class="web-container" id="learning-web"></div>
+  <p class="web-hint">drag nodes · scroll to zoom · hover for details</p>
+
+  <div class="legend" id="legend"></div>
+</main>
+
+<footer>Noah Peters</footer>
+
+<script src="js/typewriter.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="js/learning-web.js"></script>
+<script>
+  typewriter(document.getElementById('typewriter'),
+    ['Ideas in motion.', 'Everything connects.', 'Always learning.'],
+    { speed: 40, pause: 2000, loop: true });
+
+  initLearningWeb('learning-web');
+
+  // Build legend from data
+  fetch('data/learning.json').then(r => r.json()).then(data => {
+    const legend = document.getElementById('legend');
+    const shown = new Set();
+    data.nodes.filter(n => n.size >= 2).forEach(n => {
+      if (shown.has(n.color)) return;
+      shown.add(n.color);
+      legend.innerHTML += `
+        <div class="legend-item">
+          <div class="legend-dot" style="background:${n.color}"></div>
+          <span>${n.label}</span>
+        </div>`;
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Work — Noah Peters</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .resume-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .exp-role {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .exp-company {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .exp-bullets {
+      list-style: none;
+      margin-top: 0.6rem;
+    }
+    .exp-bullets li {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      padding: 0.2rem 0 0.2rem 1rem;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+    .course-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .course-pill {
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+    }
+    .edu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .edu-item:last-child { border-bottom: none; }
+    .edu-degree { font-weight: 600; font-size: 0.95rem; }
+    .edu-school { font-size: 0.85rem; color: var(--text-muted); }
+    .edu-years { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="index.html">NP</a>
+  <ul>
+    <li><a href="now.html">Now</a></li>
+    <li><a href="learning.html">Learning</a></li>
+    <li><a href="work.html" class="active">Work</a></li>
+    <li><a href="research.html">Research</a></li>
+  </ul>
+</nav>
+
+<main>
+  <div class="resume-header">
+    <div>
+      <h1>Noah Peters</h1>
+      <div class="typewriter" id="typewriter"></div>
+    </div>
+    <a class="btn" href="resume.pdf" download>
+      ↓ Download PDF
+    </a>
+  </div>
+
+  <h2>Experience</h2>
+  <div id="experience"></div>
+
+  <h2>Education</h2>
+  <div id="education"></div>
+
+  <h2>Skills</h2>
+  <div class="skills-grid" id="skills"></div>
+
+  <h2>Coursework</h2>
+  <div class="course-grid" id="courses"></div>
+</main>
+
+<footer>Noah Peters</footer>
+
+<script src="js/typewriter.js"></script>
+<script>
+  fetch('data/resume.json')
+    .then(r => r.json())
+    .then(d => {
+      typewriter(document.getElementById('typewriter'),
+        ['Economics · Construction · Research'], { speed: 40, pause: 99999 });
+
+      // Experience
+      const exp = document.getElementById('experience');
+      d.experience.forEach(e => {
+        exp.innerHTML += `
+          <div class="entry">
+            <div class="entry-meta">${e.years}</div>
+            <div class="exp-role">${e.role}</div>
+            <div class="exp-company">${e.company}</div>
+            <ul class="exp-bullets">
+              ${e.bullets.map(b => `<li>${b}</li>`).join('')}
+            </ul>
+          </div>`;
+      });
+
+      // Education
+      const edu = document.getElementById('education');
+      d.education.forEach(e => {
+        edu.innerHTML += `
+          <div class="edu-item">
+            <div>
+              <div class="edu-degree">${e.degree}</div>
+              <div class="edu-school">${e.institution}</div>
+              ${e.notes ? `<div style="font-size:0.82rem;color:var(--text-muted);margin-top:0.2rem">${e.notes}</div>` : ''}
+            </div>
+            <div class="edu-years">${e.years}</div>
+          </div>`;
+      });
+
+      // Skills
+      const skills = document.getElementById('skills');
+      d.skills.forEach(s => {
+        skills.innerHTML += `
+          <div class="skill-group">
+            <h3>${s.category}</h3>
+            <ul>${s.items.map(i => `<li>${i}</li>`).join('')}</ul>
+          </div>`;
+      });
+
+      // Courses
+      const courses = document.getElementById('courses');
+      d.courses.forEach(c => {
+        courses.innerHTML += `<span class="course-pill">${c}</span>`;
+      });
+    });
+</script>
+</body>
+</html>

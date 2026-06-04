@@ -1,0 +1,44 @@
+{
+  "updated": "June 2026",
+  "working_on": [
+    {
+      "title": "Sustainability Certifications & Property Values",
+      "description": "Research project analyzing how green building certifications affect property values. Using R for data analysis.",
+      "status": "active"
+    },
+    {
+      "title": "Construction Management",
+      "description": "Working in the field, learning the operational side of large-scale building projects.",
+      "status": "active"
+    }
+  ],
+  "learning": [
+    "R programming and statistical analysis",
+    "Econometrics",
+    "Sustainable building practices",
+    "Data visualization"
+  ],
+  "reading": [
+    {
+      "title": "The Ecology of a Changing Planet",
+      "author": "Mark Bush",
+      "status": "reading"
+    },
+    {
+      "title": "Thinking, Fast and Slow",
+      "author": "Daniel Kahneman",
+      "status": "want to read"
+    },
+    {
+      "title": "The Death and Life of Great American Cities",
+      "author": "Jane Jacobs",
+      "status": "read"
+    }
+  ],
+  "goals": [
+    "Publish undergraduate research on sustainability and property values",
+    "Build proficiency in R and econometric modeling",
+    "Understand the full lifecycle of a construction project",
+    "Explore the intersection of ecology and urban development"
+  ]
+}

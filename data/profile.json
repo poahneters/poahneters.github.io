@@ -1,0 +1,15 @@
+{
+  "name": "Noah Peters",
+  "tagline": "Economics. Construction. The Natural World.",
+  "intro": [
+    "I study systems — economic, ecological, built.",
+    "Currently working in construction management and researching how sustainability shapes value.",
+    "This is where I keep track of what I'm learning, thinking about, and building toward."
+  ],
+  "location": "United States",
+  "email": "noahseanpeters@gmail.com",
+  "links": [
+    { "label": "GitHub", "url": "https://github.com" },
+    { "label": "LinkedIn", "url": "https://linkedin.com" }
+  ]
+}

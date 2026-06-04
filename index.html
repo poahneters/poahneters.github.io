@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Noah Peters</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .home-intro { margin-bottom: 3rem; }
+    .home-intro h1 { margin-bottom: 0.5rem; }
+    .nav-links { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 3rem; }
+    .nav-link-item {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+    .nav-link-item:hover { color: var(--accent); text-decoration: none; }
+    .nav-link-item:hover .nav-link-arrow { transform: translateX(4px); }
+    .nav-link-label { font-weight: 600; font-size: 1rem; }
+    .nav-link-desc { font-size: 0.85rem; color: var(--text-muted); flex: 1; }
+    .nav-link-arrow { color: var(--accent); transition: transform 0.2s; font-size: 1rem; }
+    .divider {
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+      margin: 2.5rem 0;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="index.html">NP</a>
+  <ul>
+    <li><a href="now.html">Now</a></li>
+    <li><a href="learning.html">Learning</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="research.html">Research</a></li>
+  </ul>
+</nav>
+
+<main>
+  <div class="home-intro">
+    <h1 id="name-heading">Noah Peters</h1>
+    <div class="typewriter" id="typewriter"></div>
+  </div>
+
+  <div class="divider"></div>
+
+  <p id="bio-text" style="font-size:1rem; color: var(--text); line-height:1.8;"></p>
+
+  <div class="nav-links" id="nav-links">
+    <a class="nav-link-item" href="now.html">
+      <span class="nav-link-label">Now</span>
+      <span class="nav-link-desc">What I'm currently working on, reading, and thinking about</span>
+      <span class="nav-link-arrow">→</span>
+    </a>
+    <a class="nav-link-item" href="learning.html">
+      <span class="nav-link-label">Learning</span>
+      <span class="nav-link-desc">An interactive map of ideas I'm exploring</span>
+      <span class="nav-link-arrow">→</span>
+    </a>
+    <a class="nav-link-item" href="work.html">
+      <span class="nav-link-label">Work</span>
+      <span class="nav-link-desc">Resume, experience, and background</span>
+      <span class="nav-link-arrow">→</span>
+    </a>
+    <a class="nav-link-item" href="research.html">
+      <span class="nav-link-label">Research</span>
+      <span class="nav-link-desc">Projects, methods, and tools</span>
+      <span class="nav-link-arrow">→</span>
+    </a>
+  </div>
+</main>
+
+<footer>
+  <span id="footer-email"></span>
+</footer>
+
+<script src="js/typewriter.js"></script>
+<script>
+  fetch('data/profile.json')
+    .then(r => r.json())
+    .then(p => {
+      document.title = p.name;
+      document.getElementById('name-heading').textContent = p.name;
+      document.getElementById('bio-text').textContent = p.intro.join(' ');
+      document.getElementById('footer-email').textContent = p.email;
+      const tw = document.getElementById('typewriter');
+      typewriter(tw, [p.tagline, ...p.intro], { speed: 42, pause: 2200, loop: true });
+    });
+</script>
+</body>
+</html>
