@@ -48,26 +48,6 @@
       color: var(--text-muted);
       margin-bottom: 2.5rem;
     }
-    .quiver-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 0.55rem 0;
-      border-bottom: 1px solid var(--border);
-      gap: 1rem;
-    }
-    .quiver-item:last-child { border-bottom: none; }
-    .quiver-name { font-size: 0.9rem; color: var(--text); }
-    .quiver-shaper { font-size: 0.82rem; color: var(--text-muted); font-style: italic; }
-    .quiver-mine {
-      font-size: 0.72rem;
-      font-family: var(--font-mono);
-      color: var(--accent);
-      border: 1px solid var(--accent);
-      padding: 0.1rem 0.45rem;
-      border-radius: 2px;
-      white-space: nowrap;
-    }
     .map-label {
       font-family: var(--font-mono);
       font-size: 0.75rem;
@@ -146,9 +126,6 @@
 
   <h2>Goals</h2>
   <div id="goals"></div>
-
-  <h2>Quiver</h2>
-  <div id="quiver"></div>
 
   <h2>Places</h2>
   <div class="map-label" id="us-label"></div>
@@ -251,21 +228,6 @@
       const goals = document.getElementById('goals');
       d.goals.forEach(g => {
         goals.innerHTML += `<div class="goal-item">${g}</div>`;
-      });
-
-      // Quiver
-      const quiver = document.getElementById('quiver');
-      d.quiver.forEach(b => {
-        quiver.innerHTML += `
-          <div class="quiver-item">
-            <div>
-              <span class="quiver-name">${b.name}</span>
-              ${b.length ? `<span class="quiver-shaper" style="margin-left:0.5rem">${b.length}</span>` : ''}
-            </div>
-            <div style="display:flex;align-items:center;gap:0.6rem">
-              ${b.mine ? `<span class="quiver-mine">shaped by me</span>` : `<span class="quiver-shaper">${b.shaper}</span>`}
-            </div>
-          </div>`;
       });
 
       // Places — maps
