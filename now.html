@@ -290,6 +290,13 @@
 
       // World map via jsvectormap
       const visitedCountries = [...new Set(d.places.countries.map(c => COUNTRY_CODES[c]).filter(Boolean))];
+
+      // Reverse lookup: ISO code → display name
+      const CODE_TO_NAME = {};
+      Object.entries(COUNTRY_CODES).forEach(([name, code]) => {
+        if (!CODE_TO_NAME[code]) CODE_TO_NAME[code] = name;
+      });
+
       new jsVectorMap({
         map: 'world',
         selector: '#world-map',
@@ -297,7 +304,26 @@
         regionsSelectable: false,
         zoomButtons: false,
         zoomOnScroll: false,
-        regionStyle: mapStyle
+        regionStyle: mapStyle,
+        onRegionTooltipShow(event, tooltip) {
+          tooltip.hide(); // suppress built-in tooltip
+        },
+        onRegionEnter(event, code) {
+          const name = CODE_TO_NAME[code] || code;
+          const visited = visitedCountries.includes(code);
+          tip.textContent = name + (visited ? ' ✓' : '');
+          tip.style.display = 'block';
+        },
+        onRegionLeave() {
+          tip.style.display = 'none';
+        }
+      });
+
+      document.getElementById('world-map').addEventListener('mousemove', e => {
+        if (tip.style.display === 'block') {
+          tip.style.left = (e.clientX + 14) + 'px';
+          tip.style.top  = (e.clientY - 32) + 'px';
+        }
       });
     });
 </script>
