@@ -90,8 +90,23 @@
       overflow: hidden;
       margin-bottom: 2rem;
     }
-    #us-map    { height: 260px; }
+    #us-map    { /* height driven by SVG aspect ratio */ }
+    #us-map svg { display: block; width: 100%; height: auto; }
     #world-map { height: 300px; }
+    .state-path { cursor: pointer; transition: fill 0.12s; }
+    #us-tooltip {
+      position: fixed;
+      display: none;
+      background: var(--text);
+      color: var(--bg);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      padding: 0.22rem 0.55rem;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 200;
+      white-space: nowrap;
+    }
     .jsvectormap-tooltip {
       font-family: var(--font-mono) !important;
       font-size: 0.75rem !important;
@@ -142,6 +157,7 @@
   <div id="world-map" class="map-container"></div>
 </main>
 
+<div id="us-tooltip"></div>
 <footer>Noah Peters</footer>
 
 <script src="js/typewriter.js"></script>
@@ -259,31 +275,49 @@
         `Countries <span class="map-count">${d.places.countries.length}</span>`;
 
       // US states map via d3-geo + topojson
+      const tip = document.getElementById('us-tooltip');
       fetch('js/vendor/states-10m.json')
         .then(r => r.json())
         .then(us => {
           const features = topojson.feature(us, us.objects.states).features;
-          const W = 900, H = 560;
+          const W = 960, H = 600;
           const projection = d3.geoAlbersUsa().fitSize([W, H], { type: 'FeatureCollection', features });
           const path = d3.geoPath().projection(projection);
 
           const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
           svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
           svg.setAttribute('width', '100%');
-          svg.style.display = 'block';
+          svg.setAttribute('height', 'auto');
+          svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
 
           features.forEach(f => {
-            const el = document.createElementNS('http://www.w3.org/2000/svg', 'path');
             const d_attr = path(f);
             if (!d_attr) return;
-            el.setAttribute('d', d_attr);
             const visited = d.places.states.includes(f.properties.name);
-            el.setAttribute('fill', visited ? '#3d6b4f' : '#efece4');
+            const fillBase   = visited ? '#3d6b4f' : '#efece4';
+            const fillHover  = visited ? '#4d8b62' : '#dedad0';
+
+            const el = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            el.setAttribute('d', d_attr);
+            el.setAttribute('fill', fillBase);
             el.setAttribute('stroke', '#d8d4c8');
-            el.setAttribute('stroke-width', '1');
-            const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
-            title.textContent = f.properties.name;
-            el.appendChild(title);
+            el.setAttribute('stroke-width', '0.8');
+            el.classList.add('state-path');
+
+            el.addEventListener('mouseenter', () => {
+              el.setAttribute('fill', fillHover);
+            });
+            el.addEventListener('mousemove', e => {
+              tip.textContent = f.properties.name + (visited ? ' ✓' : '');
+              tip.style.display = 'block';
+              tip.style.left = (e.clientX + 14) + 'px';
+              tip.style.top  = (e.clientY - 32) + 'px';
+            });
+            el.addEventListener('mouseleave', () => {
+              el.setAttribute('fill', fillBase);
+              tip.style.display = 'none';
+            });
+
             svg.appendChild(el);
           });
 
