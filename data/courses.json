@@ -1,0 +1,52 @@
+﻿{
+  "schools": [
+    {
+      "name": "Cal Poly SLO",
+      "years": "2024-2026",
+      "degree": "B.S. Economics, Real Property Development Minor",
+      "courses": [
+        { "name": "Construction Management & Project Planning", "type": "Major" },
+        { "name": "Evaluation of Cost Alternatives", "type": "Major" },
+        { "name": "Materials and Assemblies", "type": "Major" },
+        { "name": "Environmental Economics", "type": "Major" },
+        { "name": "Real Estate Finance", "type": "Minor" },
+        { "name": "Real Property Development", "type": "Minor" },
+        { "name": "Environmental Planning", "type": "Minor" },
+        { "name": "Senior Project: Green Building Certifications & Property Values", "type": "Capstone" },
+        { "name": "Cal Poly Real Estate Competition (3rd Place)", "type": "Competition" }
+      ]
+    },
+    {
+      "name": "UC Santa Cruz",
+      "years": "2022-2024",
+      "degree": "Business Management Economics",
+      "courses": [
+        { "name": "Principles of Economics", "type": "Core" },
+        { "name": "Intermediate Microeconomics", "type": "Core" },
+        { "name": "Intermediate Macroeconomics", "type": "Core" },
+        { "name": "Statistics for Economics", "type": "Core" },
+        { "name": "Business Strategy", "type": "Core" },
+        { "name": "History of Philosophy", "type": "GE" },
+        { "name": "Ethics & Society", "type": "GE" },
+        { "name": "World Literature", "type": "GE" }
+      ]
+    },
+    {
+      "name": "Santa Barbara City College",
+      "years": "2018-2024",
+      "degree": "5 AA Degrees (All with Honors)",
+      "courses": [
+        { "name": "Macroeconomics", "type": "Economics" },
+        { "name": "Microeconomics", "type": "Economics" },
+        { "name": "Introduction to Statistics", "type": "Math" },
+        { "name": "Calculus I", "type": "Math" },
+        { "name": "English Composition", "type": "GE" },
+        { "name": "Critical Thinking", "type": "GE" },
+        { "name": "Introduction to Philosophy", "type": "GE" },
+        { "name": "Introduction to Psychology", "type": "GE" },
+        { "name": "US History", "type": "GE" },
+        { "name": "Physical Geography", "type": "Science" }
+      ]
+    }
+  ]
+}

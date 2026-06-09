@@ -6,6 +6,7 @@
   <title>Learning — Noah Peters</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
+    /* ── knowledge web ── */
     .web-container {
       width: 100%;
       border: 1px solid var(--border);
@@ -36,10 +37,142 @@
       font-size: 0.8rem;
       color: var(--text-muted);
     }
-    .legend-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    /* ── shared section chrome ── */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      margin-bottom: 0.9rem;
     }
+    .section-count {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+    }
+
+    /* ── filter tabs ── */
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.85rem;
+    }
+    .filter-tab {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      padding: 0.22rem 0.65rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      background: var(--bg-alt);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .filter-tab:hover { border-color: var(--accent); color: var(--accent); }
+    .filter-tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* ── scrollable list ── */
+    .scroll-list {
+      max-height: 420px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--bg);
+    }
+    .scroll-list::-webkit-scrollbar { width: 6px; }
+    .scroll-list::-webkit-scrollbar-track { background: var(--bg-alt); }
+    .scroll-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    .scroll-list::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+    /* ── book rows ── */
+    .book-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.8rem;
+      padding: 0.52rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .book-row:last-child { border-bottom: none; }
+    .book-row.hidden { display: none; }
+    .book-num {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--border);
+      min-width: 1.8rem;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .book-info { flex: 1; min-width: 0; }
+    .book-title { font-size: 0.88rem; color: var(--text); }
+    .book-author {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 0.05rem;
+    }
+    .book-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+    .book-grade {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .reading-badge {
+      font-family: var(--font-mono);
+      font-size: 0.67rem;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.05rem 0.35rem;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    /* ── course rows ── */
+    .school-block { }
+    .school-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      padding: 0.55rem 0.9rem 0.3rem;
+      background: var(--bg-alt);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .school-years { font-size: 0.68rem; }
+    .course-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+    }
+    .course-row:last-child { border-bottom: none; }
+    .course-row.hidden { display: none; }
+    .course-name { font-size: 0.88rem; color: var(--text); }
+    .course-type {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    .course-type.type-capstone { color: var(--accent); }
+    .course-type.type-competition { color: var(--accent); }
   </style>
 </head>
 <body>
@@ -64,8 +197,23 @@
 
   <div class="web-container" id="learning-web"></div>
   <p class="web-hint">drag nodes · scroll to zoom · hover for details</p>
-
   <div class="legend" id="legend"></div>
+
+  <!-- ── Books ── -->
+  <h2 style="margin-top: 3rem;">Books</h2>
+  <div class="section-header">
+    <span id="books-count" class="section-count"></span>
+  </div>
+  <div class="filter-tabs" id="era-tabs"></div>
+  <div class="scroll-list" id="books-list"></div>
+
+  <!-- ── Courses ── -->
+  <h2 style="margin-top: 3rem;">Courses</h2>
+  <div class="section-header">
+    <span id="courses-count" class="section-count"></span>
+  </div>
+  <div class="filter-tabs" id="school-tabs"></div>
+  <div class="scroll-list" id="courses-list"></div>
 </main>
 
 <footer>Noah Peters</footer>
@@ -80,7 +228,7 @@
 
   initLearningWeb('learning-web');
 
-  // Build legend from data
+  // Legend
   fetch('data/learning.json').then(r => r.json()).then(data => {
     const legend = document.getElementById('legend');
     const shown = new Set();
@@ -93,6 +241,130 @@
           <span>${n.label}</span>
         </div>`;
     });
+  });
+
+  // ── Books ──────────────────────────────────────────────────────
+  fetch('data/books.json').then(r => r.json()).then(({ books }) => {
+    const eras = ['All', ...new Set(books.map(b => b.era))];
+    let activeEra = 'All';
+    let visibleNum = 0;
+
+    // Build era tabs
+    const tabsEl = document.getElementById('era-tabs');
+    eras.forEach(era => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-tab' + (era === 'All' ? ' active' : '');
+      btn.textContent = era;
+      btn.addEventListener('click', () => {
+        activeEra = era;
+        tabsEl.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        filterBooks();
+      });
+      tabsEl.appendChild(btn);
+    });
+
+    // Build rows
+    const listEl = document.getElementById('books-list');
+    let num = 0;
+    books.forEach(b => {
+      if (b.status !== 'reading') num++;
+      const row = document.createElement('div');
+      row.className = 'book-row';
+      row.dataset.era = b.era;
+      row.innerHTML = `
+        <span class="book-num">${b.status === 'reading' ? '' : num}</span>
+        <div class="book-info">
+          <div class="book-title">${b.title}</div>
+          <div class="book-author">${b.author}</div>
+        </div>
+        <div class="book-right">
+          <span class="book-grade">${b.grade}</span>
+          ${b.status === 'reading' ? '<span class="reading-badge">reading</span>' : ''}
+        </div>`;
+      listEl.appendChild(row);
+    });
+
+    function filterBooks() {
+      const rows = listEl.querySelectorAll('.book-row');
+      let count = 0;
+      rows.forEach(row => {
+        const show = activeEra === 'All' || row.dataset.era === activeEra;
+        row.classList.toggle('hidden', !show);
+        if (show) count++;
+      });
+      document.getElementById('books-count').textContent =
+        activeEra === 'All'
+          ? `${books.filter(b => b.status === 'read').length} read · ${books.filter(b => b.status === 'reading').length} in progress`
+          : `${count} book${count !== 1 ? 's' : ''}`;
+    }
+
+    filterBooks();
+  });
+
+  // ── Courses ────────────────────────────────────────────────────
+  fetch('data/courses.json').then(r => r.json()).then(({ schools }) => {
+    const schoolNames = ['All', ...schools.map(s => s.name)];
+    let activeSchool = 'All';
+
+    // School tabs
+    const tabsEl = document.getElementById('school-tabs');
+    schoolNames.forEach(name => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-tab' + (name === 'All' ? ' active' : '');
+      btn.textContent = name;
+      btn.addEventListener('click', () => {
+        activeSchool = name;
+        tabsEl.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        filterCourses();
+      });
+      tabsEl.appendChild(btn);
+    });
+
+    // Build list
+    const listEl = document.getElementById('courses-list');
+    schools.forEach(school => {
+      const block = document.createElement('div');
+      block.className = 'school-block';
+      block.dataset.school = school.name;
+
+      block.innerHTML = `<div class="school-label">
+        <span>${school.name} — ${school.degree}</span>
+        <span class="school-years">${school.years}</span>
+      </div>`;
+
+      school.courses.forEach(c => {
+        const typeClass = c.type === 'Capstone' || c.type === 'Competition'
+          ? 'course-type type-' + c.type.toLowerCase()
+          : 'course-type';
+        const row = document.createElement('div');
+        row.className = 'course-row';
+        row.dataset.school = school.name;
+        row.innerHTML = `
+          <span class="course-name">${c.name}</span>
+          <span class="${typeClass}">${c.type}</span>`;
+        block.appendChild(row);
+      });
+
+      listEl.appendChild(block);
+    });
+
+    function filterCourses() {
+      const blocks = listEl.querySelectorAll('.school-block');
+      let total = 0;
+      blocks.forEach(block => {
+        const show = activeSchool === 'All' || block.dataset.school === activeSchool;
+        block.style.display = show ? '' : 'none';
+        if (show) {
+          total += block.querySelectorAll('.course-row').length;
+        }
+      });
+      document.getElementById('courses-count').textContent =
+        `${total} course${total !== 1 ? 's' : ''}`;
+    }
+
+    filterCourses();
   });
 </script>
 </body>
