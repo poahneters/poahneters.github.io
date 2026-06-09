@@ -306,25 +306,27 @@
         zoomOnScroll: false,
         regionStyle: mapStyle,
         onRegionTooltipShow(event, tooltip) {
-          tooltip.hide(); // suppress built-in tooltip
-        },
-        onRegionEnter(event, code) {
+          tooltip.hide();
+        }
+      });
+
+      // Custom tooltip via direct DOM delegation on data-code paths
+      const worldEl = document.getElementById('world-map');
+      worldEl.addEventListener('mousemove', e => {
+        const path = e.target.closest('[data-code]');
+        if (path) {
+          const code = path.getAttribute('data-code');
           const name = CODE_TO_NAME[code] || code;
           const visited = visitedCountries.includes(code);
           tip.textContent = name + (visited ? ' ✓' : '');
           tip.style.display = 'block';
-        },
-        onRegionLeave() {
+          tip.style.left = (e.clientX + 14) + 'px';
+          tip.style.top  = (e.clientY - 32) + 'px';
+        } else {
           tip.style.display = 'none';
         }
       });
-
-      document.getElementById('world-map').addEventListener('mousemove', e => {
-        if (tip.style.display === 'block') {
-          tip.style.left = (e.clientX + 14) + 'px';
-          tip.style.top  = (e.clientY - 32) + 'px';
-        }
-      });
+      worldEl.addEventListener('mouseleave', () => { tip.style.display = 'none'; });
     });
 </script>
 </body>
