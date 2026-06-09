@@ -1,34 +1,45 @@
 {
   "projects": [
     {
-      "title": "Sustainability Certifications & Property Values",
+      "title": "Green Building Certifications and Property Values in San Francisco",
       "status": "In Progress",
       "year": "2026",
-      "description": "An empirical analysis of how green building certifications (LEED, ENERGY STAR, etc.) affect residential and commercial property values. Using hedonic pricing models and R to isolate the premium — or discount — associated with certified properties.",
-      "methods": ["Hedonic Pricing Model", "OLS Regression", "R", "Data Cleaning & Analysis"],
+      "description": "An empirical analysis of whether LEED and Energy Star certifications raise commercial property values in San Francisco, using 18 years of public assessor data (2007–2024) and three identification strategies: hedonic OLS, a two-way fixed-effects difference-in-differences panel, and a renovation-matched design that isolates the certification signal from concurrent capital investment.",
+      "methods": ["Hedonic OLS", "Difference-in-Differences", "Coarsened Exact Matching (CEM)", "Event Study", "Two-Way Fixed Effects", "Python", "Income Capitalization Framework"],
       "questions": [
-        "Do sustainability certifications produce a measurable price premium?",
-        "Does the effect vary by market, property type, or certification level?",
-        "How has the relationship changed over time as green building has become more common?"
+        "Do LEED and Energy Star certifications produce a measurable premium in assessed improvement value after controlling for building characteristics?",
+        "Does the premium survive a renovation-matched comparison — certified+renovated vs. renovated-but-uncertified buildings?",
+        "Does the premium materialize after certification rather than after renovation alone, as confirmed by a permit-anchored event study?",
+        "Does the effect vary by property use type — offices, hotels, retail, mixed-use?"
       ],
-      "tags": ["Economics", "Sustainability", "Real Estate", "R", "Econometrics"]
+      "findings": [
+        "Hedonic cross-section: 52% premium (β = 0.419, p < 0.001) in the 2024–25 assessor roll",
+        "DiD panel: 35% increase post-certification relative to matched controls (β = 0.302, p < 0.001)",
+        "Renovation-matched hedonic: 31% premium (β = 0.271, p = 0.033) — survives the primary identification test",
+        "Renovation-matched DiD: 46% premium (β = 0.380, p < 0.001)",
+        "Permit-anchored event study: pre-permit trends parallel; premium grows from ~year +4, peaking at +7, consistent with the 7-year average permit-to-certification gap",
+        "Heterogeneity: strongest for office (39%) and hotel (250%, small N); retail and industrial insignificant"
+      ],
+      "tags": ["Economics", "Sustainability", "Real Estate", "Econometrics", "San Francisco", "LEED", "Energy Star"]
     }
   ],
   "tools": [
     {
-      "name": "R",
-      "description": "Primary analysis language. Using tidyverse, ggplot2, and fixest for econometric modeling.",
-      "learning": true
+      "name": "Python",
+      "description": "Primary analysis language. Used for data cleaning, merging assessor/certification/permit datasets, CEM matching, OLS and panel regressions, and all figures.",
+      "learning": false
     },
     {
       "name": "Excel",
-      "description": "Data cleaning and preliminary exploration.",
+      "description": "Preliminary data exploration and summary statistics.",
       "learning": false
     }
   ],
   "resources": [
-    { "label": "R for Data Science", "url": "https://r4ds.had.co.nz/", "description": "Core R learning resource" },
-    { "label": "NBER Working Papers", "url": "https://www.nber.org/papers", "description": "Economics research" },
-    { "label": "CoStar", "url": "https://www.costar.com/", "description": "Commercial real estate data" }
+    { "label": "SF Assessor Secured Property Tax Roll (DataSF)", "url": "https://data.sfgov.org/", "description": "18 annual roll files, 2007–2024 — primary outcome variable source" },
+    { "label": "USGBC LEED Project Directory", "url": "https://www.usgbc.org/projects", "description": "LEED certification registry used to identify treated parcels" },
+    { "label": "EPA Energy Star Portfolio Manager", "url": "https://www.energystar.gov/buildings/benchmark", "description": "Federal Energy Star certification registry" },
+    { "label": "Eichholtz, Kok & Quigley (2010) — AER", "url": "https://doi.org/10.1257/aer.100.5.2492", "description": "Baseline hedonic study: 3% asking rent, 16% sale price premium for certified offices" },
+    { "label": "Dermisi (2009) — Journal of Sustainable Real Estate", "url": "https://www.jstor.org/stable/24860542", "description": "Assessor-value approach most directly comparable to this paper" }
   ]
 }

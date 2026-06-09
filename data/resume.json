@@ -1,36 +1,91 @@
 {
   "education": [
     {
-      "institution": "University Name",
-      "degree": "B.S. Economics",
-      "years": "2022 – 2026",
-      "notes": "Focus on environmental economics and quantitative methods"
+      "institution": "California Polytechnic State University, San Luis Obispo",
+      "degree": "B.S. Economics, Real Property Development Minor",
+      "years": "Expected June 2026",
+      "notes": "Cumulative GPA: 3.80 · President's Honors Roll 2025 & Dean's List every quarter"
+    },
+    {
+      "institution": "University of California, Santa Cruz",
+      "degree": "Business Management Economics",
+      "years": "Sept 2022 – June 2024",
+      "notes": "Cumulative GPA: 3.7"
+    },
+    {
+      "institution": "Santa Barbara City College",
+      "degree": "5 AA Degrees, All with Honors",
+      "years": "Aug 2018 – May 2024",
+      "notes": "Liberal Arts & Sciences (Arts & Humanities 2021, Math & Science 2023, Social & Behavioral Sciences 2023); AA & AAT in Economics (2024) · Cumulative GPA: 4.0"
     }
   ],
   "experience": [
     {
-      "company": "Company Name",
-      "role": "Construction Management",
-      "years": "2025 – Present",
+      "company": "Cumming Group — San Francisco, CA",
+      "role": "Incoming Cost Manager",
+      "years": "Start: August 2026",
       "bullets": [
-        "Description of your responsibilities",
-        "Key project or achievement",
-        "Another accomplishment"
+        "Selected for a full-time cost management role beginning August 2026",
+        "Will support budget estimates, quantity takeoffs, scope review, and cost analysis using plans and specifications",
+        "Will contribute to change order review, ongoing cost management, and risk and value management efforts"
+      ]
+    },
+    {
+      "company": "Data Hardware Depot (DHD) — Santa Barbara, CA",
+      "role": "Business Development Intern",
+      "years": "Summer 2024 & 2025",
+      "bullets": [
+        "Created deal sheets and sales proposals in Excel and IQ Reseller using data from ZoomInfo, HubSpot, Broker Bin, IT Price, and TD SYNNEX",
+        "Filtered and organized sales data in Excel to conduct outreach to 1,000+ new and existing IT clients",
+        "Partnered with management and sales teams to streamline systems and improve operational efficiency",
+        "Automated outreach campaigns by building HubSpot sequences integrated with Excel and ZoomInfo enriched data"
+      ]
+    },
+    {
+      "company": "KGM Construction — Santa Barbara, CA",
+      "role": "Construction Worker",
+      "years": "July 2024 – Sept 2024",
+      "bullets": [
+        "Coordinated with project managers to keep luxury estate builds on schedule",
+        "Applied skills in waterproofing, caulking, jackhammering, framing, and installation of windows and doors",
+        "Collaborated with homeowners and subcontractors to ensure smooth daily operations",
+        "Read and interpreted plans to confirm accurate window and door placement"
+      ]
+    },
+    {
+      "company": "Chuck's of Hawaii — Santa Barbara, CA",
+      "role": "Busser",
+      "years": "April 2022 – June 2026",
+      "bullets": [
+        "Built rapport with customers, both new and regular, keeping customer service the top priority",
+        "Communicated effectively with co-workers to provide efficient service in a fast-paced environment",
+        "Assisted in food preparation, bussing, restocking, and cleaning"
       ]
     }
   ],
   "skills": [
-    { "category": "Analysis", "items": ["R", "Excel", "Statistical Modeling", "Econometrics"] },
-    { "category": "Construction", "items": ["Project Management", "Site Operations", "Scheduling"] },
-    { "category": "Other", "items": ["Research & Writing", "Data Visualization", "Python (learning)"] }
+    {
+      "category": "Software & Tools",
+      "items": ["Excel", "Procore (Student Certified)", "HubSpot", "ZoomInfo", "IQ Reseller", "Outlook", "Word", "PowerPoint", "DaVinci Resolve"]
+    },
+    {
+      "category": "Construction & Real Estate",
+      "items": ["Cost Management", "Quantity Takeoffs", "Budget Estimates", "Plan Reading", "Change Order Review", "Waterproofing & Framing"]
+    },
+    {
+      "category": "Languages & Interests",
+      "items": ["English (Fluent)", "German (Proficient)", "Beach Volleyball", "Rock Climbing", "Surfing", "Snowboarding", "Filming & Editing", "Traveling"]
+    }
   ],
   "courses": [
-    "Microeconomics",
-    "Macroeconomics",
-    "Econometrics",
+    "Construction Management & Project Planning",
+    "Evaluation of Cost Alternatives",
+    "Materials and Assemblies",
     "Environmental Economics",
-    "Urban Economics",
-    "Statistics",
-    "Real Estate Finance"
+    "Real Estate Finance",
+    "Real Property Development",
+    "Environmental Planning",
+    "Senior Project: Impact of LEED & Energy Star on Commercial Building Value",
+    "Cal Poly Real Estate Competition Finalist (3rd Place)"
   ]
 }

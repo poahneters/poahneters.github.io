@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Now — Noah Peters</title>
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="js/vendor/jsvectormap.min.css" />
   <style>
     .reading-item {
       display: flex;
@@ -47,6 +48,59 @@
       color: var(--text-muted);
       margin-bottom: 2.5rem;
     }
+    .quiver-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+    }
+    .quiver-item:last-child { border-bottom: none; }
+    .quiver-name { font-size: 0.9rem; color: var(--text); }
+    .quiver-shaper { font-size: 0.82rem; color: var(--text-muted); font-style: italic; }
+    .quiver-mine {
+      font-size: 0.72rem;
+      font-family: var(--font-mono);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.1rem 0.45rem;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    .map-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .map-count {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      margin-left: 0.4rem;
+    }
+    .map-container {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: var(--bg-alt);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    #us-map    { height: 260px; }
+    #world-map { height: 300px; }
+    .jsvectormap-tooltip {
+      font-family: var(--font-mono) !important;
+      font-size: 0.75rem !important;
+      background: var(--text) !important;
+      color: var(--bg) !important;
+      border: none !important;
+      border-radius: 2px !important;
+      padding: 0.25rem 0.6rem !important;
+    }
   </style>
 </head>
 <body>
@@ -77,12 +131,63 @@
 
   <h2>Goals</h2>
   <div id="goals"></div>
+
+  <h2>Quiver</h2>
+  <div id="quiver"></div>
+
+  <h2>Places</h2>
+  <div class="map-label" id="us-label"></div>
+  <div id="us-map" class="map-container"></div>
+  <div class="map-label" id="world-label"></div>
+  <div id="world-map" class="map-container"></div>
 </main>
 
 <footer>Noah Peters</footer>
 
 <script src="js/typewriter.js"></script>
+<script src="js/vendor/jsvectormap.min.js"></script>
+<script src="js/vendor/jsvectormap-world.js"></script>
+<script src="js/vendor/topojson-client.min.js"></script>
+<script src="js/vendor/d3-array.min.js"></script>
+<script src="js/vendor/d3-geo.min.js"></script>
 <script>
+  const COUNTRY_CODES = {
+    'Afghanistan':'AF','Albania':'AL','Algeria':'DZ','Angola':'AO','Argentina':'AR',
+    'Armenia':'AM','Australia':'AU','Austria':'AT','Azerbaijan':'AZ','Bahrain':'BH',
+    'Bangladesh':'BD','Belarus':'BY','Belgium':'BE','Belize':'BZ','Benin':'BJ',
+    'Bolivia':'BO','Bosnia and Herzegovina':'BA','Botswana':'BW','Brazil':'BR',
+    'Bulgaria':'BG','Cambodia':'KH','Cameroon':'CM','Canada':'CA','Chile':'CL',
+    'China':'CN','Colombia':'CO','Costa Rica':'CR','Croatia':'HR','Cuba':'CU',
+    'Czech Republic':'CZ','Denmark':'DK','Dominican Republic':'DO','Ecuador':'EC',
+    'Egypt':'EG','El Salvador':'SV','England':'GB','Estonia':'EE','Ethiopia':'ET',
+    'Finland':'FI','France':'FR','Georgia':'GE','Germany':'DE','Ghana':'GH',
+    'Greece':'GR','Guatemala':'GT','Honduras':'HN','Hungary':'HU','Iceland':'IS',
+    'India':'IN','Indonesia':'ID','Iran':'IR','Iraq':'IQ','Republic of Ireland':'IE',
+    'Israel':'IL','Italy':'IT','Jamaica':'JM','Japan':'JP','Jordan':'JO',
+    'Kazakhstan':'KZ','Kenya':'KE','Kosovo':'XK','Latvia':'LV','Lebanon':'LB',
+    'Libya':'LY','Liechtenstein':'LI','Lithuania':'LT','Luxembourg':'LU',
+    'Malaysia':'MY','Mali':'ML','Mexico':'MX','Moldova':'MD','Mongolia':'MN',
+    'Morocco':'MA','Mozambique':'MZ','Myanmar':'MM','Nepal':'NP','Netherlands':'NL',
+    'New Zealand':'NZ','Nicaragua':'NI','Nigeria':'NG','North Korea':'KP',
+    'Norway':'NO','Pakistan':'PK','Panama':'PA','Paraguay':'PY','Peru':'PE',
+    'Philippines':'PH','Poland':'PL','Portugal':'PT','Romania':'RO','Russia':'RU',
+    'Saudi Arabia':'SA','Scotland':'GB','Senegal':'SN','Serbia':'RS','Singapore':'SG',
+    'Slovakia':'SK','Slovenia':'SI','Somalia':'SO','South Africa':'ZA',
+    'South Korea':'KR','Spain':'ES','Sudan':'SD','Sweden':'SE','Switzerland':'CH',
+    'Syria':'SY','Taiwan':'TW','Tanzania':'TZ','Thailand':'TH','Tunisia':'TN',
+    'Turkey':'TR','Uganda':'UG','Ukraine':'UA','United Arab Emirates':'AE',
+    'United Kingdom':'GB','United States':'US','Uruguay':'UY','Uzbekistan':'UZ',
+    'Venezuela':'VE','Vietnam':'VN','Wales':'GB','Yemen':'YE','Zambia':'ZM',
+    'Zimbabwe':'ZW'
+  };
+
+  const mapStyle = {
+    initial:      { fill: '#efece4', stroke: '#d8d4c8', strokeWidth: 0.4 },
+    selected:     { fill: '#3d6b4f' },
+    hover:        { fillOpacity: 0.75 },
+    selectedHover:{ fill: '#4d7b5f' }
+  };
+
   fetch('data/now.json')
     .then(r => r.json())
     .then(d => {
@@ -130,6 +235,73 @@
       const goals = document.getElementById('goals');
       d.goals.forEach(g => {
         goals.innerHTML += `<div class="goal-item">${g}</div>`;
+      });
+
+      // Quiver
+      const quiver = document.getElementById('quiver');
+      d.quiver.forEach(b => {
+        quiver.innerHTML += `
+          <div class="quiver-item">
+            <div>
+              <span class="quiver-name">${b.name}</span>
+              ${b.length ? `<span class="quiver-shaper" style="margin-left:0.5rem">${b.length}</span>` : ''}
+            </div>
+            <div style="display:flex;align-items:center;gap:0.6rem">
+              ${b.mine ? `<span class="quiver-mine">shaped by me</span>` : `<span class="quiver-shaper">${b.shaper}</span>`}
+            </div>
+          </div>`;
+      });
+
+      // Places — maps
+      document.getElementById('us-label').innerHTML =
+        `States <span class="map-count">${d.places.states.length}</span>`;
+      document.getElementById('world-label').innerHTML =
+        `Countries <span class="map-count">${d.places.countries.length}</span>`;
+
+      // US states map via d3-geo + topojson
+      fetch('js/vendor/states-10m.json')
+        .then(r => r.json())
+        .then(us => {
+          const features = topojson.feature(us, us.objects.states).features;
+          const W = 900, H = 560;
+          const projection = d3.geoAlbersUsa().fitSize([W, H], { type: 'FeatureCollection', features });
+          const path = d3.geoPath().projection(projection);
+
+          const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+          svg.setAttribute('width', '100%');
+          svg.style.display = 'block';
+
+          features.forEach(f => {
+            const el = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const d_attr = path(f);
+            if (!d_attr) return;
+            el.setAttribute('d', d_attr);
+            const visited = d.places.states.includes(f.properties.name);
+            el.setAttribute('fill', visited ? '#3d6b4f' : '#efece4');
+            el.setAttribute('stroke', '#d8d4c8');
+            el.setAttribute('stroke-width', '1');
+            const title = document.createElementNS('http://www.w3.org/2000/svg', 'title');
+            title.textContent = f.properties.name;
+            el.appendChild(title);
+            svg.appendChild(el);
+          });
+
+          const usContainer = document.getElementById('us-map');
+          usContainer.innerHTML = '';
+          usContainer.appendChild(svg);
+        });
+
+      // World map via jsvectormap
+      const visitedCountries = [...new Set(d.places.countries.map(c => COUNTRY_CODES[c]).filter(Boolean))];
+      new jsVectorMap({
+        map: 'world',
+        selector: '#world-map',
+        selectedRegions: visitedCountries,
+        regionsSelectable: false,
+        zoomButtons: false,
+        zoomOnScroll: false,
+        regionStyle: mapStyle
       });
     });
 </script>

@@ -53,6 +53,30 @@
       font-family: var(--font-mono);
       font-size: 0.8rem;
     }
+    .findings { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border); }
+    .findings h4 {
+      font-size: 0.78rem;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+    .findings ul { list-style: none; }
+    .findings li {
+      font-size: 0.87rem;
+      color: var(--text-muted);
+      padding: 0.3rem 0 0.3rem 1rem;
+      position: relative;
+    }
+    .findings li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+    }
     .methods { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.8rem; }
     .method-tag {
       font-size: 0.75rem;
@@ -103,8 +127,15 @@
 </nav>
 
 <main>
-  <h1>Research</h1>
-  <div class="typewriter" id="typewriter"></div>
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:2rem">
+    <div>
+      <h1>Research</h1>
+      <div class="typewriter" id="typewriter"></div>
+    </div>
+    <a class="btn" href="research-paper.pdf" download>
+      ↓ Download Paper
+    </a>
+  </div>
 
   <h2>Projects</h2>
   <div id="projects"></div>
@@ -141,6 +172,11 @@
               <h4>Research Questions</h4>
               <ul>${p.questions.map(q => `<li>${q}</li>`).join('')}</ul>
             </div>
+            ${p.findings ? `
+            <div class="findings">
+              <h4>Key Findings</h4>
+              <ul>${p.findings.map(f => `<li>${f}</li>`).join('')}</ul>
+            </div>` : ''}
             <div class="tags" style="margin-top:1rem">
               ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
             </div>

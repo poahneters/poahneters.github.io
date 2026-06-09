@@ -3,42 +3,77 @@
   "working_on": [
     {
       "title": "Sustainability Certifications & Property Values",
-      "description": "Research project analyzing how green building certifications affect property values. Using R for data analysis.",
+      "description": "Senior research project analyzing how LEED and Energy Star certifications affect commercial property values in San Francisco. Using 18 years of public assessor data and three identification strategies.",
       "status": "active"
     },
     {
-      "title": "Construction Management",
-      "description": "Working in the field, learning the operational side of large-scale building projects.",
-      "status": "active"
+      "title": "Incoming Cost Manager — Cumming Group",
+      "description": "Starting full-time in San Francisco August 2026. Preparing for budget estimates, quantity takeoffs, and cost analysis on large commercial projects.",
+      "status": "upcoming"
     }
   ],
   "learning": [
-    "R programming and statistical analysis",
+    "Cost management & quantity takeoffs",
     "Econometrics",
-    "Sustainable building practices",
-    "Data visualization"
+    "Real property development",
+    "Python for data analysis"
   ],
   "reading": [
     {
-      "title": "The Ecology of a Changing Planet",
-      "author": "Mark Bush",
+      "title": "Barbarian Days: A Surfing Life",
+      "author": "William Finnegan",
       "status": "reading"
     },
     {
-      "title": "Thinking, Fast and Slow",
-      "author": "Daniel Kahneman",
-      "status": "want to read"
+      "title": "Let My People Go Surfing",
+      "author": "Yvon Chouinard",
+      "status": "reading"
     },
     {
-      "title": "The Death and Life of Great American Cities",
-      "author": "Jane Jacobs",
+      "title": "Set for Life",
+      "author": "Scott Trench",
+      "status": "read"
+    },
+    {
+      "title": "No-Nonsense Buddhism for Beginners",
+      "author": "Noah Rasheta",
       "status": "read"
     }
   ],
   "goals": [
-    "Publish undergraduate research on sustainability and property values",
-    "Build proficiency in R and econometric modeling",
-    "Understand the full lifecycle of a construction project",
-    "Explore the intersection of ecology and urban development"
-  ]
+    "Finish and submit senior research paper",
+    "Move to San Francisco and start at Cumming Group",
+    "Shape another surfboard",
+    "Reach 25 countries visited"
+  ],
+  "quiver": [
+    { "name": "Master Card",     "shaper": "Owen Isachsen", "mine": false },
+    { "name": "Carpet Glider",   "shaper": "Stoneman",      "mine": false },
+    { "name": "Holger Longboard","shaper": "Progressive",   "mine": false },
+    { "name": "Patagonia",       "shaper": "Fletcher Chouinard", "mine": false, "length": "9'6" },
+    { "name": "Fish Drawing Fish","shaper": "shaped by me",  "mine": true },
+    { "name": "Zeus",            "shaper": "shaped by me",  "mine": true },
+    { "name": "Round Nose Fish", "shaper": "shaped by me",  "mine": true },
+    { "name": "Frankenstein",    "shaper": "unknown",       "mine": false },
+    { "name": "Tie Die Thumb",   "shaper": "shaped by me",  "mine": true },
+    { "name": "Cooked Drawings", "shaper": "shaped by me",  "mine": true },
+    { "name": "Maroon Fish",     "shaper": "unknown",       "mine": false },
+    { "name": "Easy Button",     "shaper": "unknown",       "mine": false },
+    { "name": "Blue Quad Fish",  "shaper": "unknown",       "mine": false },
+    { "name": "Schroedel",       "shaper": "unknown",       "mine": false },
+    { "name": "Cheese Board",    "shaper": "unknown",       "mine": false }
+  ],
+  "places": {
+    "states": [
+      "California","Oregon","Washington","Nevada","Arizona","Wyoming",
+      "Colorado","New York","Maine","Hawaii","South Dakota","Vermont",
+      "New Hampshire","Florida","Utah","Virginia","Georgia"
+    ],
+    "countries": [
+      "United States","Germany","Italy","France","Belgium","Portugal",
+      "Spain","Netherlands","England","Austria","Switzerland","Sweden",
+      "Denmark","Norway","Mexico","Nicaragua","Costa Rica","Liechtenstein",
+      "Republic of Ireland","Croatia","Bosnia and Herzegovina","Wales","New Zealand"
+    ]
+  }
 }
