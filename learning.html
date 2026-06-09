@@ -348,6 +348,7 @@
     const listEl = document.getElementById('courses-list');
     schools.forEach(school => {
       const block = document.createElement('div');
+      block.className = 'school-block';
       block.dataset.school = school.name;
 
       block.innerHTML = `<div class="school-label">
