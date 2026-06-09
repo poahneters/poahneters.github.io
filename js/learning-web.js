@@ -101,20 +101,29 @@ async function initLearningWeb(containerId) {
 
   function render() {
     // ── Links ──
-    linkSel = linkG.selectAll('line').data(data.connections, d => d.source.id + '-' + d.target.id);
-    linkSel.exit().remove();
-    linkSel = linkG.selectAll('line').data(data.connections);
-    linkSel.each(function(d) {
-      d3.select(this).style('display', isLinkVisible(d) ? null : 'none');
-    });
     linkG.selectAll('line')
+      .data(data.connections)
       .join('line')
-      .attr('stroke', '#c8c4b8')
-      .attr('stroke-width', 1.5)
-      .attr('stroke-opacity', 0.6)
-      .each(function(d) {
-        d3.select(this).style('display', isLinkVisible(d) ? null : 'none');
-      });
+      .attr('stroke', d => {
+        const sid = d.source.id || d.source;
+        const tid = d.target.id || d.target;
+        const sn = nodeMap[sid], tn = nodeMap[tid];
+        // Root-to-root links get the source node's colour, tinted
+        return (sn && tn && sn.size === 3 && tn.size === 3) ? sn.color : '#c8c4b8';
+      })
+      .attr('stroke-width', d => {
+        const sid = d.source.id || d.source;
+        const tid = d.target.id || d.target;
+        const sn = nodeMap[sid], tn = nodeMap[tid];
+        return (sn && tn && sn.size === 3 && tn.size === 3) ? 2 : 1.2;
+      })
+      .attr('stroke-opacity', d => {
+        const sid = d.source.id || d.source;
+        const tid = d.target.id || d.target;
+        const sn = nodeMap[sid], tn = nodeMap[tid];
+        return (sn && tn && sn.size === 3 && tn.size === 3) ? 0.5 : 0.4;
+      })
+      .style('display', d => isLinkVisible(d) ? null : 'none');
 
     // ── Nodes ──
     nodeSel = nodeG.selectAll('g.node-item')
@@ -264,6 +273,7 @@ async function initLearningWeb(containerId) {
 
   simulation.on('tick', () => {
     linkG.selectAll('line')
+      .style('display', d => isLinkVisible(d) ? null : 'none')
       .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
       .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
     nodeG.selectAll('g.node-item')
