@@ -139,14 +139,13 @@
     }
 
     /* ── course rows ── */
-    .school-block { }
     .school-label {
       font-family: var(--font-mono);
       font-size: 0.72rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--text-muted);
-      padding: 0.55rem 0.9rem 0.3rem;
+      padding: 0.5rem 0.9rem;
       background: var(--bg-alt);
       border-bottom: 1px solid var(--border);
       display: flex;
@@ -156,23 +155,46 @@
     .school-years { font-size: 0.68rem; }
     .course-row {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0.5rem 0.9rem;
+      align-items: baseline;
+      gap: 0.75rem;
+      padding: 0.48rem 0.9rem;
       border-bottom: 1px solid var(--border);
-      gap: 1rem;
     }
     .course-row:last-child { border-bottom: none; }
-    .course-row.hidden { display: none; }
-    .course-name { font-size: 0.88rem; color: var(--text); }
-    .course-type {
+    .course-code {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent);
+      min-width: 6.5rem;
+      flex-shrink: 0;
+    }
+    .course-name { font-size: 0.87rem; color: var(--text); flex: 1; min-width: 0; }
+    .course-right {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      flex-shrink: 0;
+    }
+    .course-term {
       font-family: var(--font-mono);
       font-size: 0.68rem;
       color: var(--text-muted);
       white-space: nowrap;
     }
-    .course-type.type-capstone { color: var(--accent); }
-    .course-type.type-competition { color: var(--accent); }
+    .course-grade {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      min-width: 2rem;
+      text-align: center;
+      padding: 0.05rem 0.3rem;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+    .grade-a  { color: var(--accent); border: 1px solid var(--accent); }
+    .grade-b  { color: var(--text-muted); border: 1px solid var(--border); }
+    .grade-c  { color: #a06040; border: 1px solid #c09070; }
+    .grade-pass { color: var(--text-muted); border: 1px solid var(--border); }
+    .grade-ip { color: var(--text-muted); font-style: italic; }
   </style>
 </head>
 <body>
@@ -326,7 +348,6 @@
     const listEl = document.getElementById('courses-list');
     schools.forEach(school => {
       const block = document.createElement('div');
-      block.className = 'school-block';
       block.dataset.school = school.name;
 
       block.innerHTML = `<div class="school-label">
@@ -335,15 +356,23 @@
       </div>`;
 
       school.courses.forEach(c => {
-        const typeClass = c.type === 'Capstone' || c.type === 'Competition'
-          ? 'course-type type-' + c.type.toLowerCase()
-          : 'course-type';
+        const g = c.grade;
+        let gradeClass = 'grade-ip';
+        let gradeText = 'in progress';
+        if (g === 'P' || g === 'CR') { gradeClass = 'grade-pass'; gradeText = g; }
+        else if (g.startsWith('A'))   { gradeClass = 'grade-a';    gradeText = g; }
+        else if (g.startsWith('B'))   { gradeClass = 'grade-b';    gradeText = g; }
+        else if (g.startsWith('C'))   { gradeClass = 'grade-c';    gradeText = g; }
+
         const row = document.createElement('div');
         row.className = 'course-row';
-        row.dataset.school = school.name;
         row.innerHTML = `
+          <span class="course-code">${c.code}</span>
           <span class="course-name">${c.name}</span>
-          <span class="${typeClass}">${c.type}</span>`;
+          <div class="course-right">
+            <span class="course-term">${c.term}</span>
+            <span class="course-grade ${gradeClass}">${gradeText}</span>
+          </div>`;
         block.appendChild(row);
       });
 
